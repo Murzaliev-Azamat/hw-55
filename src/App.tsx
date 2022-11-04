@@ -1,24 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
+import Burger from "./containers/Burger/Burger";
+import IngredientOption from "./components/IngredientOption/IngredientOption";
+
+
+interface IngredientFilling {
+  name: string,
+  count: number,
+}
 
 function App() {
+
+
+  const [ingredients, setIngredients] = useState<IngredientFilling[]>([
+    {name: "Salad", count: 3},
+    {name: "Meat", count: 4},
+    {name: "Cheese", count: 3},
+    {name: "Bacon", count: 3},
+  ]);
+
+  const addFilling = (name: string) => {
+    const ingredientsCopy = [...ingredients];
+    const ingredientInfo = ingredientsCopy.find(item => item.name === name)!
+
+    ingredientInfo.count++;
+
+    setIngredients(ingredientsCopy)
+
+  };
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="ingredients-style">
+        {ingredients.map(ingredient => {
+          return (
+            <IngredientOption key={ingredient.name} name={ingredient.name} count={ingredient.count} onImgClick={() => addFilling(ingredient.name)} del={() => {}}/>
+        )})}
+      </div>
+      <Burger ingredients={ingredients}/>
     </div>
   );
 }
