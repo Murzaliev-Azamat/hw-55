@@ -22,20 +22,25 @@ function App() {
   const addFilling = (name: string) => {
     const ingredientsCopy = [...ingredients];
     const ingredientInfo = ingredientsCopy.find(item => item.name === name)!
-
     ingredientInfo.count++;
-
     setIngredients(ingredientsCopy)
-
   };
 
+  const deleteFilling = (name: string) => {
+    const ingredientsCopy = [...ingredients];
+    const ingredientInfo = ingredientsCopy.find(item => item.name === name)!
+    if (ingredientInfo.count > 0) {
+      ingredientInfo.count--;
+      setIngredients(ingredientsCopy)
+    }
+  };
 
   return (
     <div className="App">
       <div className="ingredients-style">
         {ingredients.map(ingredient => {
           return (
-            <IngredientOption key={ingredient.name} name={ingredient.name} count={ingredient.count} onImgClick={() => addFilling(ingredient.name)} del={() => {}}/>
+            <IngredientOption key={ingredient.name} name={ingredient.name} count={ingredient.count} onImgClick={() => addFilling(ingredient.name)} del={() => deleteFilling(ingredient.name)}/>
         )})}
       </div>
       <Burger ingredients={ingredients}/>
